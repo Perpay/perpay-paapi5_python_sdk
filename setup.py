@@ -8,6 +8,6 @@ setup(
     author='Jacky Lee',
     author_email='jacky@perpay.com',
     license='unlicense',
-    packages=['perpay'],
+    packages=['paapi5_python_sdk'],
     zip_safe=False
 )
