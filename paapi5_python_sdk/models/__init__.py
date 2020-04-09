@@ -26,17 +26,7 @@ from __future__ import absolute_import
 """
 
 
-# import auth into sdk package
-from paapi5_python_sdk.auth.sign_helper import AWSV4Auth
-
-
-# import apis into sdk package
-from paapi5_python_sdk.api.default_api import DefaultApi
-
-# import ApiClient
-from paapi5_python_sdk.api_client import ApiClient
-from paapi5_python_sdk.configuration import Configuration
-# import models into sdk package
+# import models into model package
 from paapi5_python_sdk.models.availability import Availability
 from paapi5_python_sdk.models.browse_node import BrowseNode
 from paapi5_python_sdk.models.browse_node_ancestor import BrowseNodeAncestor

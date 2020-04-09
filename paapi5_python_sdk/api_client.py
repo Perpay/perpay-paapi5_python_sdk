@@ -1,20 +1,22 @@
 # coding: utf-8
 
+# flake8: noqa
+
 from __future__ import absolute_import
 
 """
- Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+  Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 
- Licensed under the Apache License, Version 2.0 (the "License").
- You may not use this file except in compliance with the License.
- A copy of the License is located at
+  Licensed under the Apache License, Version 2.0 (the "License").
+  You may not use this file except in compliance with the License.
+  A copy of the License is located at
 
-     http://www.apache.org/licenses/LICENSE-2.0
+      http://www.apache.org/licenses/LICENSE-2.0
 
- or in the "license" file accompanying this file. This file is distributed
- on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
- express or implied. See the License for the specific language governing
- permissions and limitations under the License.
+  or in the "license" file accompanying this file. This file is distributed
+  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+  express or implied. See the License for the specific language governing
+  permissions and limitations under the License.
 """
 
 """
@@ -36,10 +38,10 @@ import six
 from six.moves.urllib.parse import quote
 
 from paapi5_python_sdk.configuration import Configuration
-import paapi5_python_sdk
+import paapi5_python_sdk.models
 from paapi5_python_sdk import rest
 
-from paapi5_python_sdk.auth.sig_v4 import AWSV4Auth
+from paapi5_python_sdk.auth.sign_helper import AWSV4Auth
 
 class ApiClient(object):
     """Generic API client for Swagger client library builds.
@@ -94,7 +96,7 @@ class ApiClient(object):
         self.cookie = cookie
         # Set default User-Agent.
         self.user_agent = 'paapi5-python-sdk/1.0.0'
- 
+
         self.access_key = access_key
         self.secret_key = secret_key
         self.host = host
@@ -286,7 +288,7 @@ class ApiClient(object):
             if klass in self.NATIVE_TYPES_MAPPING:
                 klass = self.NATIVE_TYPES_MAPPING[klass]
             else:
-                klass = getattr(paapi5_python_sdk, klass)
+                klass = getattr(paapi5_python_sdk.models, klass)
 
         if klass in self.PRIMITIVE_TYPES:
             return self.__deserialize_primitive(data, klass)
@@ -528,7 +530,7 @@ class ApiClient(object):
             headers['Content-Type'] = 'application/json; charset=utf-8'
             headers['host'] = self.host
             headers['x-amz-date'] = self.get_amz_date(utc_timestamp)
-            awsv4Auth = AWSV4Auth(access_key=self.access_key,
+            aws_v4_auth = AWSV4Auth(access_key=self.access_key,
                                   secret_key=self.secret_key,
                                   host=self.host,
                                   region=self.region,
@@ -538,7 +540,7 @@ class ApiClient(object):
                                   headers=headers,
                                   payload=self.sanitize_for_serialization(body),
                                   path=resource_path)
-            authHeaders = awsv4Auth.getHeaders()
+            auth_headers = aws_v4_auth.get_headers()
 
             return
 
